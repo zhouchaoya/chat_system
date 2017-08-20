@@ -17,6 +17,25 @@ void window::createHeader()
 	box(header, 0, 0);
 
 }
+void window::clrNumsLines(WINDOW* win, int begin, int nums)
+{
+	while(nums-- > 0){
+		wmove(win, begin, 0);
+		wclrtoeol(win);
+	}
+
+}
+void window::getStringFromWin(WINDOW* win, string &outString)
+{
+	char buf[1024];
+	buf[0] = 0;
+	wgetnstr(win, buf, sizeof(buf));
+	outString = buf;  //string lei chongzai
+}
+void window::putStrToWin(WINDOW* win, int start_y, int start_x, string& msg)
+{
+	mvwaddstr(win, start_y, start_x, msg.c_str());//zhi ding chuangkou fangshuju
+}
 void window::refreshMyWindow(WINDOW* win)
 {
 	wrefresh(win);
@@ -56,24 +75,48 @@ void window::createInput()
 }
 window::~window()
 {
+	delwin(header);
+	delwin(output);
+	delwin(friend_list);
+	delwin(input);
 	endwin();
 }
 
+#ifdef _DEBUG_
 int main()
 {
 	window win;
 	win.createHeader();
 	win.refreshMyWindow(win.header);
-	sleep(2);
 	win.createOutput();
 	win.refreshMyWindow(win.output);
-	sleep(2);
 	win.createFriendList();
 	win.refreshMyWindow(win.friend_list);
-	sleep(2);
 	win.createInput();
 	win.refreshMyWindow(win.input);
-	sleep(2);
-	
+	string msg = "Welcome To Mychat_system";
+	int h = 0;
+	int w = 0;
+	int step = 0;
+	while(1){
+	win.createHeader();
+	getmaxyx(win.header, h, w);
+	win.putStrToWin(win.header, h/2, step++, msg);
+	win.refreshMyWindow(win.header);
+	win.clrNumsLines(win.header, h/2, 1);
+	step %= w;
+	usleep(300000);
+	string str;
+	win.getStringFromWin(win.input,str);
+
+	getmaxyx(win.output, h, w);
+	win.putStrToWin(win.output, 1, 1, str);
+	win.refreshMyWindow(win.output);
+	}
+//#endif
+		
 	return 0;
 }
+
+
+#endif

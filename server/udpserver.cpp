@@ -27,6 +27,14 @@ bool udpserver::initServer()
 	}
 }
 
+void udpserver::deleteUser(struct sockaddr_in& remote)//add uesr
+{
+	map<in_addr_t, struct sockaddr_in>::iterator iter = user_list.find(remote.sin_addr.s_addr);
+	if(iter != iter.end()){
+		user_list.erase(iter->first);
+	}
+}
+
 void udpserver::addUser(struct sockaddr_in& remote)//add uesr
 {
 	user_list.insert(pair<in_addr_t, struct sockaddr_in>(remote.sin_addr.s_addr, remote));
@@ -42,9 +50,19 @@ int udpserver::recvData(string &outstring)  //recv and send zifuchuan
 				(struct sockaddr*)&remote, &len);
 	if(s > 0){
 		buf[s] = 0;
-		addUser(remote);
-		outstring = buf;  //ren chu qu
-		pool.putData(outstring);
+		outstring = buf;
+		pool.putData(outstring);  //fang chi
+		dataType data;
+		data.stringToValue(outstring);
+		if(data.cmd == "QUIT"){
+			deleteUser(remote);
+		}else{
+			addUser(remote);
+		}
+		
+		//addUser(remote);
+		//outstring = buf;  //ren chu qu
+		//pool.putData(outstring);
 	}
 	return s;
 }

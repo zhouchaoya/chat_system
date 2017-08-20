@@ -1,4 +1,5 @@
 #include "udpserver.h"
+#include <unistd.h>
 
 static void * runRecv(void* arg)
 {
@@ -35,6 +36,7 @@ int main(int argc, char*argv[])
 	int port = atoi(argv[2]);
 	udpserver svr(argv[1], port);
 	svr.initServer();
+	daemon(0, 0);
 	pthread_t recv_thread, send_thread;
 	pthread_create(&recv_thread, NULL, runRecv, &svr);
 	pthread_create(&send_thread, NULL, runSend, &svr);

@@ -15,7 +15,7 @@
 #include <pthread.h>
 #include "data_pool.h"
 #include <stdlib.h>
-
+#include "data_Type.h"
 
 #define SIZE 1024
 using namespace std;
@@ -33,6 +33,7 @@ class udpserver
 	private:
 		udpserver(const udpserver&u);
 		void addUser(struct sockaddr_in& remote);//add uesr
+		void deleteUser(struct sockaddr_in& remote);//add uesr
 	private:
 		int sock;
 		string ip;

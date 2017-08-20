@@ -5,7 +5,9 @@
 #include <iostream>
 #include <ncurses.h>
 #include <strstream>
+#include <string>
 
+using namespace std;
 class window
 {
 	public:
@@ -15,6 +17,9 @@ class window
 		void createFriendList();
 		void createInput();
 		void refreshMyWindow(WINDOW* win);
+		void putStrToWin(WINDOW* win, int start_y, int start_x, string& msg);
+		void getStringFromWin(WINDOW* win, string &outString);
+		void clrNumsLines(WINDOW* win, int begin, int nums);
 		~window();
 	public:
 		WINDOW* header;  //chaungkoujubing

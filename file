@@ -1,0 +1,11 @@
+Compling [/home/zcy/code/mycode/5_21/chat_system/client/udpClientMain.cpp] to [udpClientMain.o]
+在包含自 /usr/lib/gcc/i686-redhat-linux/4.4.7/../../../../include/c++/4.4.7/backward/strstream：47 的文件中，
+                 从 /home/zcy/code/mycode/5_21/chat_system/window/window.h：7，
+                 从 /home/zcy/code/mycode/5_21/chat_system/client/udpClientMain.cpp：3:
+/usr/lib/gcc/i686-redhat-linux/4.4.7/../../../../include/c++/4.4.7/backward/backward_warning.h:28:2: 警告：#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.
+/home/zcy/code/mycode/5_21/chat_system/client/udpClientMain.cpp: In function ‘void* run_output_friend(void*)’:
+/home/zcy/code/mycode/5_21/chat_system/client/udpClientMain.cpp:48: 错误：‘getmaxyz’在此作用域中尚未声明
+/home/zcy/code/mycode/5_21/chat_system/client/udpClientMain.cpp: In function ‘void* run_input(void*)’:
+/home/zcy/code/mycode/5_21/chat_system/client/udpClientMain.cpp:65: 错误：‘getmaxyz’在此作用域中尚未声明
+/home/zcy/code/mycode/5_21/chat_system/client/udpClientMain.cpp:70: 错误：‘getStringFromWin’在此作用域中尚未声明
+make: *** [udpClientMain.o] 错误 1

@@ -12,6 +12,8 @@
 #include <arpa/inet.h>
 #include <string>
 #include <map>
+#include <vector>
+#include <algorithm>
 #include <stdlib.h>
 
 
@@ -25,7 +27,11 @@ class udpclient
 		 int recvData(string &outstring);  //recv and send zifuchuan
 		 int sendData(string &instring);
 		bool initclient();
+		void addUser(string& _friend);
+		void deleteUser(string& _friend);
 		~udpclient();
+	public:
+		vector<string> flist; 
 	private:
 		udpclient(const udpclient&u);
 	private:

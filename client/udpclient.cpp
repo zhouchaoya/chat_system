@@ -22,6 +22,20 @@ bool udpclient::initclient()
 }
 
 
+void udpclient::addUser(string& _friend)
+{
+	vector<string>::iterator iter = find(flist.begin(), flist.end(), _friend);
+	if(iter == flist.end()){
+		flist.push_back(_friend);
+	}
+}
+void udpclient::deleteUser(string& _friend)
+{
+	vector<string>::iterator iter = find(flist.begin(), flist.end(), _friend);
+	if(iter != flist.end()){ //die dai qi shixiao
+		flist.erase(iter);
+	}
+}
 
 int udpclient::recvData(string &outstring)  //recv and send zifuchuan
 {

@@ -12,15 +12,15 @@ CC=g++
 FLAGS=-D_FAST_
 LDFLAGS=#-static
 
-INCLUDE_PATH=-I$(SERVER_PATH) -I$(DATA_POOL_PATH) -I$(LOG_PATH) -I$(COMM_PATH) -I$(LIB_PATH)/include
+INCLUDE_PATH=-I$(SERVER_PATH) -I$(DATA_POOL_PATH) -I$(LOG_PATH) -I$(COMM_PATH) -I$(LIB_PATH)/include -I$(WINDOW_PATH)
 JSON_PATH=-L$(LIB_PATH)/lib
 lib=-lpthread -ljsoncpp
 
 SERVER_BIN=udpserver
-CLIENT_BIN=udpclient
+CLIENT_BIN=udpclient  
 
 SERVER_SRC=$(shell ls $(SERVER_PATH) $(LOG_PATH) $(DATA_POOL_PATH) $(COMM_PATH) | egrep -v '^.*\.h' | egrep '.*\.cpp')
-CLIENT_SRC=$(shell ls $(CLIENT_PATH) $(LOG_PATH) $(COMM_PATH) | egrep -v '^.*\.h' | egrep '.*\.cpp')
+CLIENT_SRC=$(shell ls $(CLIENT_PATH) $(LOG_PATH) $(COMM_PATH) $(WINDOW_PATH)| egrep -v '^.*\.h' | egrep '.*\.cpp')
 
 SERVER_OBJ=$(shell echo $(SERVER_SRC) | sed 's/\.cpp/\.o/g')
 CLIENT_OBJ=$(shell echo $(CLIENT_SRC) | sed 's/\.cpp/\.o/g')
@@ -38,7 +38,7 @@ $(SERVER_BIN):$(SERVER_OBJ)
 	@$(CC) -c $< $(INCLUDE_PATH)
 $(CLIENT_BIN):$(CLIENT_OBJ)
 	@echo "Link [$^] to [$@] ..."
-	@$(CC) -o $@ $^  $(JSON_PATH) $(lib) $(LDFLAGS)
+	@$(CC) -o $@ $^  $(JSON_PATH) $(lib) $(LDFLAGS) -lncurses
 	@echo "Link done ..."
 %.o:$(CLIENT_PATH)/%.cpp
 	@echo "Compling [$<] to [$@]"
@@ -55,9 +55,22 @@ $(CLIENT_BIN):$(CLIENT_OBJ)
 %.o:$(COMM_PATH)/%.cpp
 	@echo "Compling [$<] to [$@]"
 	@$(CC) -c $< $(INCLUDE_PATH) $(FLAGS)
+%.o:$(WINDOW_PATH)/%.cpp
+	@echo "Compling [$<] to [$@]"
+	@$(CC) -c $< $(INCLUDE_PATH) $(FLAGS)
+
 .PHONY:clean
 clean:
-	rm -f $(SERVER_BIN) $(CLIENT_BIN) *.o
+	rm -rf $(SERVER_BIN) $(CLIENT_BIN) *.o output
+
+.PHONY:output
+output:
+	mkdir -p output/log
+	cp $(SERVER_BIN) output
+	cp $(CLIENT_BIN) output
+	cp -rf conf output
+	cp server_ctl.sh output
+
 
 .PHONY:debug
 debug:
